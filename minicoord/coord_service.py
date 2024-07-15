@@ -78,7 +78,7 @@ class NodesHandler(BaseHandler):
         """ Register a new node with coordinator"""
         req = self.request.body
         # we get a trailing null for some reason
-        req = req.rstrip('\x00')
+        req = req.rstrip(b'\x00')
         req = json.loads(req)
         self.coord.register_node_request(req)
         self.set_status(201) # CREATED
@@ -102,7 +102,7 @@ class SessionsHandler(BaseHandler):
         """Create a session"""
         req = self.request.body
         # we get a trailing null for some reason
-        req = req.rstrip('\x00')
+        req = req.rstrip(b'\x00')
         req = json.loads(req)
         resp = self.coord.create_session_request(req)
         if resp:
@@ -137,7 +137,7 @@ class EventHandler(BaseHandler):
         """Record a session event (used for logging)"""
         req = self.request.body
         # we get a trailing null for some reason
-        req = req.rstrip('\x00')
+        req = req.rstrip(b'\x00')
         req = json.loads(req)
         if self.coord.session_exists(sess_id):
             self.coord.session(sess_id).event_request(req)

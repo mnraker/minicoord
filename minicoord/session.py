@@ -50,8 +50,8 @@ class Computation(object):
         """ substitute actual values for the variables $arrayIndex and $arrayNumber that
             can appear in definitions"""
         newconfig = self.config.copy()
-        for (k,v) in self.config.iteritems():
-            if not isinstance(v,basestring):
+        for (k,v) in self.config.items():
+            if not isinstance(v, str):
                 continue
             if v == "$arrayIndex":
                 newconfig[k] = self.array_index
@@ -120,7 +120,7 @@ class Session(object):
         logger.info("Starting session {}".format(short_id(self.id)))
 
         self.computations = {}
-        for (name,config) in definition['computations'].iteritems():
+        for (name,config) in definition['computations'].items():
             if 'arrayExpand' in config:
                 self.add_array(name,config,config['arrayExpand'])
             else:
@@ -135,7 +135,7 @@ class Session(object):
             c.evaluate_variables()
             target = c.name
             if 'messages' in c.config:
-                for (source,names) in c.config['messages'].iteritems():
+                for (source,names) in c.config['messages'].items():
                     names = normalize_messages_entry(names)
                     if source in self.arrays:
                         for s in self.arrays[source]:
@@ -174,7 +174,7 @@ class Session(object):
         
     def launch(self):
         (ncs,r) = self.generate_node_configs()
-        for (nid,nc) in ncs.iteritems():
+        for (nid,nc) in ncs.items():
             nd = { nid: nc,
                    "routing": r }
             node = self.coord.node(nid)
@@ -191,7 +191,7 @@ class Session(object):
         # all computations are ready : start the session
         # send final topology to all nodes
         (ncs,r) = self.generate_node_configs()
-        for (nid,nc) in ncs.iteritems():
+        for (nid,nc) in ncs.items():
             nd = { "status":"run",
                    "routing": r }
             node = self.coord.node(nid)
